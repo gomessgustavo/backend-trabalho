@@ -1,0 +1,10 @@
+import { Router } from "express";
+import BrechoController from "../controller/Brecho.controller";
+import { authMiddleware } from "../middleware/Auth.middleware";
+const router = Router();
+router.get("/", authMiddleware, BrechoController.getRoupas);
+router.put("/", authMiddleware, BrechoController.atualizaRoupa);
+router.post("/", authMiddleware, BrechoController.insereNovaRoupa);
+router.post("/interesses", authMiddleware, BrechoController.insereInteresse);
+router.get("/interesses", authMiddleware, BrechoController.buscaInteresses);
+export default router;
