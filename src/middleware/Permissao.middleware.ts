@@ -27,7 +27,7 @@ export class PermissaoMiddleware {
     const decoded = jwt.decode(tokenJwt);
 
     req.usuario = { id: decoded?.id };
-
+    console.log(decoded.id);
     next();
   }
 }

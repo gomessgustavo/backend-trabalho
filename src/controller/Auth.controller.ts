@@ -6,6 +6,7 @@ import { configDataSource } from "../db/config";
 import { PermissoesEnum } from "../model/enum/Permissoes.enum";
 
 const jwtSecret: string = process.env.JWT_SECRET || "secret-uni-ads";
+const masterKey = process.env.MASTER_KEY || "teste";
 
 export class AuthController {
   async cadastrar(req: Request, res: Response): Promise<void> {
@@ -116,6 +117,40 @@ export class AuthController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Erro ao alterar senha" });
+    }
+  }
+
+  async darPermissao(req: Request, res: Response) {
+    const { usuario } = req.body;
+    try {
+      if (req.headers.key !== masterKey) {
+        res.status(401).json({ message: "Não autorizado" });
+        return;
+      }
+      const repo = configDataSource.getRepository(UsuarioEntity);
+      const usuarioBuscado = await repo.findOneBy({ usuario });
+      if (!usuarioBuscado) throw new Error();
+      usuarioBuscado.permissoes = PermissoesEnum.ADMIN;
+
+      await repo.save(usuarioBuscado);
+      res.status(200).json({ message: "Permissão dada" });
+    } catch (error) {
+      console.error(error);
+      res.status(404).json({ error: "Usuário não encontrado" });
+    }
+  }
+
+  async verInfo(req: Request, res: Response) {
+    try {
+      const repo = configDataSource.getRepository(UsuarioEntity);
+      const usuarioBuscado = await repo.findOneBy({ id: req.usuario.id });
+      console.log(usuarioBuscado);
+      if (!usuarioBuscado) throw new Error();
+
+      res.status(200).json({ permissao: usuarioBuscado.permissoes });
+    } catch (error) {
+      console.error(error);
+      res.status(404).json({ error: "Usuário não encontrado" });
     }
   }
 }
