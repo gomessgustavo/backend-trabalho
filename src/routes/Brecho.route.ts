@@ -5,7 +5,7 @@ import PermissaoMiddleware from "../middleware/Permissao.middleware";
 
 const router = Router();
 
-router.get("/", authMiddleware, BrechoController.getRoupas);
+router.get("/", BrechoController.getRoupas);
 router.put(
   "/:id",
   authMiddleware,

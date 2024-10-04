@@ -147,7 +147,13 @@ export class AuthController {
       console.log(usuarioBuscado);
       if (!usuarioBuscado) throw new Error();
 
-      res.status(200).json({ permissao: usuarioBuscado.permissoes });
+      res
+        .status(200)
+        .json({
+          permissao: usuarioBuscado.permissoes,
+          nome: usuarioBuscado.nome,
+          usuario: usuarioBuscado.usuario,
+        });
     } catch (error) {
       console.error(error);
       res.status(404).json({ error: "Usuário não encontrado" });
