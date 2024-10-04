@@ -68,7 +68,7 @@ export class AuthController {
         { id: usuarioBuscado.id, usuario: usuarioBuscado.usuario },
         jwtSecret,
         {
-          expiresIn: "1h",
+          expiresIn: "365d",
         }
       );
 
@@ -147,13 +147,11 @@ export class AuthController {
       console.log(usuarioBuscado);
       if (!usuarioBuscado) throw new Error();
 
-      res
-        .status(200)
-        .json({
-          permissao: usuarioBuscado.permissoes,
-          nome: usuarioBuscado.nome,
-          usuario: usuarioBuscado.usuario,
-        });
+      res.status(200).json({
+        permissao: usuarioBuscado.permissoes,
+        nome: usuarioBuscado.nome,
+        usuario: usuarioBuscado.usuario,
+      });
     } catch (error) {
       console.error(error);
       res.status(404).json({ error: "Usuário não encontrado" });
