@@ -11,7 +11,7 @@ router.post("/entrar", AuthController.login);
 router.post("/alterar-senha", authMiddleware, AuthController.atualizarSenha);
 router.post("/permissao", AuthController.darPermissao);
 router.get(
-  "/permissao",
+  "/info",
   authMiddleware,
   PermissaoMiddleware.setIdUsuario,
   AuthController.verInfo
